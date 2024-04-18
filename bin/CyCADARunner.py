@@ -8,18 +8,14 @@ from src.Common.utils import svhn_loader, mnist_loader
 # Hyperparameters
 batch_size_stepA = 128
 batch_size_stepB = 128
-batch_size_stepC = 50
 num_epochs_stepA = 100
 num_epochs_stepB = 100
-num_epochs_stepC = 200
 lr_stepA = 0.0001
 lr_stepB = 0.00001
-lr_stepC = 0.0002
 
 # Training and saving parameters
 stepA = True
 stepB = True
-stepC = False
 path = "savedmodels/CyCADA_MNIST-to-SVHN/StepBCmerged/new_Standard"
 data_augment_source = False
 
@@ -63,26 +59,12 @@ def stepB_runner(CyCADAClassifier, batch_size_stepB, num_epochs_stepB, path=Fals
 
 
 # -----------------------------------------------------------------------------
-# stepC_runner
-# -----------------------------------------------------------------------------
-def stepC_runner(CyCADAClassifier, batch_size_stepC, num_epochs_stepC):
-    # Load SVHN and MNIST datasets
-    dataloader_S_train, _ = mnist_loader(batch_size_stepC)
-    dataloader_T_train, dataloader_T_test = svhn_loader(batch_size_stepC)
-
-    # Train and Test over epochs
-    for epoch in range(num_epochs_stepC):
-        CyCADAClassifier.train_stepC(epoch, dataloader_S_train, dataloader_T_train)
-        CyCADAClassifier.test_stepC(epoch, dataloader_T_test)
-
-
-# -----------------------------------------------------------------------------
 # main
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     start_time = time.time()
 
-    CyCADAClassifier = CyCADASolver(lr_stepA=lr_stepA,lr_stepB=lr_stepB,lr_stepC=lr_stepC, path=path, data_augment_source=data_augment_source)
+    CyCADAClassifier = CyCADASolver(lr_stepA=lr_stepA,lr_stepB=lr_stepB, path=path, data_augment_source=data_augment_source)
     print(f"Using device {CyCADAClassifier.device}")
     CyCADAClassifier = CyCADAClassifier.to(CyCADAClassifier.device)
 
@@ -90,16 +72,10 @@ if __name__ == "__main__":
     if stepA:
         stepA_runner(CyCADAClassifier, batch_size_stepA, num_epochs_stepA, path)
 
-    # Step B - Pixel space adaptation - Train G_ST, G_TS, D_S, D_T, F_T (F_S fix)
+    # Step B - Train G_ST, G_TS, D_S, D_T, D_feat, F_T (F_S fix)
     if stepB:
         CyCADAClassifier.F_S.load_state_dict(torch.load(os.path.join(path, 'F_S_model.pth'), map_location=CyCADAClassifier.device))
         stepB_runner(CyCADAClassifier, batch_size_stepB, num_epochs_stepB, path)
-    
-    # Step C - Feature space adaptation - Train D_feat, F_T (rest fix)
-    if stepC:
-        CyCADAClassifier.F_T.load_state_dict(torch.load(os.path.join(path, 'F_T_model.pth'), map_location=CyCADAClassifier.device))
-        CyCADAClassifier.G_ST.load_state_dict(torch.load(os.path.join(path, 'G_ST_model.pth'), map_location=CyCADAClassifier.device))
-        stepC_runner(CyCADAClassifier, batch_size_stepC, num_epochs_stepC)
 
     end_time = time.time()
     duration = end_time - start_time

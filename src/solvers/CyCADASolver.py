@@ -13,7 +13,7 @@ from src.models.CyCADA.TaskClassifier import TaskClassifier
 
 
 class CyCADASolver(nn.Module):
-    def __init__(self, lr_stepA=0.0001, lr_stepB= 0.00001, lr_stepC=0.0002, path='savedmodels/CyCADA', data_augment_source=True):
+    def __init__(self, lr_stepA=0.0001, lr_stepB= 0.00001, path='savedmodels/CyCADA', data_augment_source=True):
         super(CyCADASolver, self).__init__()
         # Init Generator and both Predictors
         self.F_S = TaskClassifier() # To be pre-trained
@@ -44,7 +44,6 @@ class CyCADASolver(nn.Module):
         # Init Hyperparameters
         self.lr_stepA = lr_stepA
         self.lr_stepB = lr_stepB
-        self.lr_stepC = lr_stepC
         self.path = path
         self.data_augment_source = data_augment_source
 
