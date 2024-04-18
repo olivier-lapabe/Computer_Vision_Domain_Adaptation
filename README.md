@@ -27,7 +27,7 @@ If you're planning to contribute or test the latest changes, you should first se
 
 ```
 git clone https://github.com/olivier-lapabe/Computer_Vision_Domain_Adaptation
-cd MNIST-SVHN-Transfer
+cd Computer_Vision_Domain_Adaptation
 ```
 
 * Set up a virtual environment:
@@ -40,7 +40,7 @@ source dadapt_env/bin/activate  # On Windows, use: dadapt_env\Scripts\activate
 * Install the required dependencies:
 
 ```
-pip install -r requirements.txt
+pip install -r requirements.txt or pip install -r requirements_mac.txt for mac users
 ```
 
 * Install the project in editable mode:
