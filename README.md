@@ -34,13 +34,13 @@ cd Computer_Vision_Domain_Adaptation
 
 ```
 python3 -m venv dadapt_env
-source dadapt_env/bin/activate  # On Windows, use: dadapt_env\Scripts\activate
+source dadapt_env/bin/activate   # On Windows, use: dadapt_env\Scripts\activate
 ```
 
 * Install the required dependencies:
 
 ```
-pip install -r requirements.txt or pip install -r requirements_mac.txt for mac users
+pip install -r requirements.txt   # For mac users, use: pip install -r requirements_mac.txt
 ```
 
 * Install the project in editable mode:

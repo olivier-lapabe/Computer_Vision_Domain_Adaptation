@@ -2,7 +2,7 @@ import torch
 import os
 import time
 import matplotlib.pyplot as plt
-from solvers.CyCADASolver import CyCADASolver
+from src.solvers.CyCADASolver import CyCADASolver
 from src.Common.utils import svhn_loader, mnist_loader
 
 # Hyperparameters
