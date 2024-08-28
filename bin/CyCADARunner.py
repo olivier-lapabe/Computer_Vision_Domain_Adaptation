@@ -16,7 +16,7 @@ lr_stepB = 0.00001
 # Training and saving parameters
 stepA = True
 stepB = True
-path = "savedmodels/CyCADA_MNIST-to-SVHN/StepBCmerged/new_Standard"
+path = "savedmodels/CyCADA_MNIST-to-SVHN/"
 data_augment_source = False
 
 
